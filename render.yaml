@@ -1,0 +1,35 @@
+# Render.com Configuration
+services:
+  - type: web
+    name: clanker-telegram-bot
+    env: node
+    region: singapore  # Change to your preferred region
+    plan: starter  # or 'free' for dev
+    buildCommand: npm install && npm run build
+    startCommand: node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false  # Set manually in dashboard
+      - key: DATABASE_URL
+        fromDatabase:
+          name: clanker-bot-db
+          property: connectionString
+      - key: PINATA_API_KEY
+        sync: false
+      - key: PINATA_SECRET_KEY
+        sync: false
+      - key: PINATA_GATEWAY
+        value: https://gateway.pinata.cloud/ipfs/
+      - key: PRIVATE_KEY
+        sync: false
+      - key: RPC_URL
+        sync: false
+
+databases:
+  - name: clanker-bot-db
+    databaseName: clanker_bot
+    user: clanker_user
+    plan: starter  # or 'free' for dev
+
